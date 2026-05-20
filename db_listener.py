@@ -2,7 +2,7 @@ import asyncio
 import asyncpg
 
 async def handle_notification(connection, pid, channel, payload):
-    print("📡 Real-time update received:")
+    print("Real-time update received:")
     print(payload)
 
 
@@ -12,7 +12,7 @@ async def listen():
         password='postgres123',
         database='apt_realtime',
         host='localhost',
-        port=5433   # IMPORTANT (your port)
+        port=5433  
     )
 
     await conn.add_listener('order_channel', handle_notification)
