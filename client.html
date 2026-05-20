@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Real-Time Orders</title>
+</head>
+
+<body style="font-family: Arial; padding: 20px; background: #f5f5f5;">
+
+<h2>📦 Real-Time Orders Dashboard</h2>
+
+<p id="status">🔄 Connecting...</p>
+
+<ul id="orders" style="list-style: none; padding: 0;"></ul>
+
+<script>
+const username = prompt("Enter your name:");
+const ws = new WebSocket(`ws://localhost:8000/ws/${username}`);
+
+const ordersMap = {};
+
+function getStatusColor(status) {
+    if (status === "Pending") return "orange";
+    if (status === "Processing") return "blue";
+    if (status === "Shipped") return "purple";
+    if (status === "Out for Delivery") return "teal";
+    if (status === "Delivered") return "green";
+    return "black";
+}
+
+ws.onopen = function() {
+    document.getElementById("status").textContent = "🟢 Connected as " + username;
+};
+
+ws.onclose = function() {
+    document.getElementById("status").textContent = "🔴 Disconnected";
+};
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    ordersMap[data.id] = data;
+    renderOrders();
+};
+
+function renderOrders() {
+    const list = document.getElementById("orders");
+    list.innerHTML = "";
+
+    Object.values(ordersMap)
+        .sort((a, b) => b.id - a.id)
+        .forEach(data => {
+            const item = document.createElement("li");
+
+            item.style.marginBottom = "15px";
+            item.style.padding = "15px";
+            item.style.background = "white";
+            item.style.borderRadius = "10px";
+            item.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+
+            item.innerHTML = `
+                <b>Order #${data.id}</b><br><br>
+                👤 Customer: ${data.customer_name}<br>
+                📦 Product: ${data.product_name}<br>
+                📊 Status:
+                <span style="color:${getStatusColor(data.status)}; font-weight:bold">
+                    ${data.status}
+                </span><br>
+                ⏱ Updated: ${new Date(data.updated_at).toLocaleString()}
+            `;
+
+            list.appendChild(item);
+        });
+}
+</script>
+
+</body>
+</html>
