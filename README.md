@@ -14,7 +14,7 @@ Design a system where database updates are propagated to connected clients in re
 - HTML/CSS/JavaScript (Frontend)
 
 ## Architecture
-''
+```
 PostgreSQL (Trigger)
         ↓
 NOTIFY Event
@@ -24,7 +24,7 @@ FastAPI Listener (asyncpg)
 WebSocket Server
         ↓
 Connected Clients (Real-Time Updates)
-''
+```
 ## Features
 - Real-time updates (no polling)
 - Event-driven architecture
@@ -45,16 +45,23 @@ Connected Clients (Real-Time Updates)
 
 ## How to Run
 
-### 1. Install dependencies
+### 1. Clone Repository
+git clone https://github.com/AVI1095/realtime-order-tracking-system.git
+
+### 2. Install Dependencies
 pip install fastapi uvicorn asyncpg
 
-### 2. Start backend server
+### 3. Configure Database
+- Create a PostgreSQL database
+- Add required tables and triggers
+
+### 4. Run Backend
 uvicorn main:app --reload
 
-### 3. Open frontend
+### 5. Run Frontend
 Open client.html in your browser
 
-## Example
+## Example Query
 UPDATE orders SET status = 'Shipped' WHERE id = 1;
 This update will instantly reflect in the UI without refreshing.
 
@@ -63,6 +70,10 @@ This update will instantly reflect in the UI without refreshing.
 - Push-based communication (WebSockets)
 - Database triggers for real-time systems
 - Efficient data propagation without polling
+
+## Why This Project Matters
+Traditional systems rely on polling, which increases load and latency.  
+This project demonstrates how to build a scalable real-time system using database-driven events, reducing unnecessary queries and improving performance.
 
 ## Conclusion
 This project demonstrates how to build a scalable and efficient real-time system using database-level events and WebSockets, eliminating the need for polling and reducing system load.
