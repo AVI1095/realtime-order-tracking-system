@@ -25,6 +25,7 @@ WebSocket Server
         ↓
 Connected Clients (Real-Time Updates)
 ```
+
 ## Features
 - Real-time updates (no polling)
 - Event-driven architecture
@@ -46,24 +47,42 @@ Connected Clients (Real-Time Updates)
 ## How to Run
 
 ### 1. Clone Repository
+```bash
 git clone https://github.com/AVI1095/realtime-order-tracking-system.git
+```
 
 ### 2. Install Dependencies
+```bash
 pip install fastapi uvicorn asyncpg
+```
 
 ### 3. Configure Database
-- Create a PostgreSQL database
-- Add required tables and triggers
+
+1. Create a PostgreSQL database:
+```bash
+createdb apt_realtime
+```
+
+2. Run the schema file:
+```bash
+psql -U postgres -d apt_realtime -f schema.sql
+```
 
 ### 4. Run Backend
+```bash
 uvicorn main:app --reload
+```
 
 ### 5. Run Frontend
-Open client.html in your browser
+Open `client.html` in your browser.
 
-## Example Query
+## Test the System
+
+Run this query to see real-time updates:
+
+```sql
 UPDATE orders SET status = 'Shipped' WHERE id = 1;
-This update will instantly reflect in the UI without refreshing.
+```
 
 ## Key Concepts Used
 - Event-driven architecture
