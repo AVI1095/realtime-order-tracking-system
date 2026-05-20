@@ -14,7 +14,15 @@ Design a system where database updates are propagated to connected clients in re
 - HTML/CSS/JavaScript (Frontend)
 
 ## Architecture
-PostgreSQL → Trigger → NOTIFY → FastAPI → WebSocket → Client
+PostgreSQL (Trigger)
+        ↓
+NOTIFY Event
+        ↓
+FastAPI Listener (asyncpg)
+        ↓
+WebSocket Server
+        ↓
+Connected Clients (Real-Time Updates)
 
 ## Features
 - Real-time updates (no polling)
